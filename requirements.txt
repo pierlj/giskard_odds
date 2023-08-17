@@ -1,0 +1,28 @@
+click @ file:///work/ci_py311/click_1676825163161/work
+contourpy @ file:///work/ci_py311/contourpy_1676827066340/work
+cycler @ file:///tmp/build/80754af9/cycler_1637851556182/work
+detlaf==1.0
+Flask @ file:///work/ci_py311/flask_1676827140363/work
+fonttools==4.25.0
+itsdangerous @ file:///tmp/build/80754af9/itsdangerous_1621432558163/work
+Jinja2 @ file:///work/ci_py311/jinja2_1676823587943/work
+kiwisolver @ file:///work/ci_py311/kiwisolver_1676827230232/work
+MarkupSafe @ file:///work/ci_py311/markupsafe_1676823507015/work
+matplotlib @ file:///croot/matplotlib-suite_1679593461707/work
+mkl-fft==1.3.6
+mkl-random @ file:///work/mkl/mkl_random_1682950433854/work
+mkl-service==2.4.0
+munkres==1.1.4
+networkx @ file:///croot/networkx_1690561992265/work
+numpy @ file:///croot/numpy_and_numpy_base_1691091611330/work
+packaging @ file:///croot/packaging_1678965309396/work
+Pillow==9.4.0
+ply==3.11
+pyparsing @ file:///work/ci_py311/pyparsing_1677811559502/work
+PyQt5-sip==12.11.0
+python-dateutil @ file:///tmp/build/80754af9/python-dateutil_1626374649649/work
+sip @ file:///work/ci_py311/sip_1676825117084/work
+six @ file:///tmp/build/80754af9/six_1644875935023/work
+toml @ file:///tmp/build/80754af9/toml_1616166611790/work
+tornado @ file:///croot/tornado_1690848263220/work
+Werkzeug @ file:///croot/werkzeug_1679489717957/work

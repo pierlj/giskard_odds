@@ -1,0 +1,100 @@
+body {
+    background-color: rgb(255, 255, 255);
+    font-family: Arial;
+    text-align: center;
+}
+
+h1 {
+    color: rgb(0, 0, 0);
+}
+
+input[type="submit"] {
+    display: none;
+}
+
+table{
+    margin: 0 auto;
+}
+
+td {
+    padding: 0 15px;
+}
+
+.ragged-left{
+    text-align: left;
+}
+
+.custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer; 
+}
+
+.row {
+    width: 100%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+}
+
+.block {
+    width: 33%;
+    display: inline-block; 
+}
+
+
+#submit-button {
+    display: none;
+    opacity: 0;
+}
+
+
+/* CSS */
+.button-style {
+    align-items: center;
+    background-color: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: .25rem;
+    box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+    box-sizing: border-box;
+    color: rgba(0, 0, 0, 0.85);
+    cursor: pointer;
+    display: inline-flex;
+    font-family: system-ui, -apple-system, system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    justify-content: center;
+    line-height: 1.25;
+    margin: 0;
+    min-height: 3rem;
+    padding: calc(.875rem - 1px) calc(1.5rem - 1px);
+    position: relative;
+    text-decoration: none;
+    transition: all 250ms;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: baseline;
+    width: auto;
+}
+
+.button-style:hover,
+.button-style:focus {
+    border-color: rgba(0, 0, 0, 0.15);
+    box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+    color: rgba(0, 0, 0, 0.65);
+}
+
+.button-style:hover {
+    transform: translateY(-1px);
+}
+
+.button-style:active {
+    background-color: #F0F0F1;
+    border-color: rgba(0, 0, 0, 0.15);
+    box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
+    color: rgba(0, 0, 0, 0.65);
+    transform: translateY(0);
+}
+
