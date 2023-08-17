@@ -4,8 +4,11 @@ import json
 import logging
 import sqlite3
 import networkx as nx
+import matplotlib
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
+
+matplotlib.use('agg')
 
 logger = logging.Logger(name="R2D2", level=logging.INFO)
 
@@ -29,8 +32,8 @@ def build_unvierse_graph(db_path: str, millenium_dict: dict) -> nx.Graph:
         - G (nx.Graph | None): the NetworkX graph containing all routes information,
                             None if an issue is encountered during the handling of the .db file.
     """
-
-    os.remove(GRAPH_SAVE_PATH)
+    if os.path.isfile(GRAPH_SAVE_PATH):
+        os.remove(GRAPH_SAVE_PATH)
     autonomy = millenium_dict["autonomy"]
 
     # safely open the DB file.
