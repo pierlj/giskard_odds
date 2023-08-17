@@ -1,6 +1,6 @@
 # Tell me the odds Giskard Technical Test
 
-This repository is an answer to the [technicaltest](https://github.com/lioncowlionant/developer-test/tree/main) from
+This repository is an answer to the [technical test](https://github.com/lioncowlionant/developer-test/tree/main) from
 Giskard.ai.
 
 The project consists in a CLI and a webapp able to compute the odds of success
