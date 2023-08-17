@@ -13,6 +13,12 @@ Simply setup a Python environment from the `requirements.txt` file:
 ```
 pip install -r requirements.txt
 ```
+For convenience, we recommend to install the requirements inside a conda environment or a virtual env: 
+```
+conda create -n giskard_odds python=3.11
+conda activate giskard_odds
+pip install -r requirements.txt
+```
 
 ## Getting started
 
