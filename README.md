@@ -42,3 +42,15 @@ It uses the Millenium Config and Routes from the examples provided in the origin
 To compute the odds, a graph of the galaxy is built using the NetworkX Python library. First, the CLI checks if there is a path from the departure and arrival planets and if it can be achieved without any stops. Then, all the paths between the two planets are computed, if the path is short enough (i.e. if the Falcon can refuel before the end of the countdown), the odds are computed by looking at the best combination of stops along the path. 
 
 This solution gives correct answers but can be quite computationally heavy as it looks for every possible combination of stops for all paths between departure and arrival planets. A more efficient algorithm could certainly be derived using A* and a carefully designed heuristic (so it ensures maximal odds of success). The difficulty of such an approach would be the time changing heuristic as the bounty hunters are not always present on the planets. This could likely be handled with A* star generalization such as [Generalized Adaptive A*](http://idm-lab.org/bib/abstracts/papers/aamas08b.pdf). 
+
+
+## Test correctness
+
+In order to assess the correctness of the algorithm and its modules, run:
+```
+python test/test.py
+```
+
+It will run test about the odds computation on each example within the
+`examples` folder and also some unit tests to assess the correctness of the
+functions used during the odds computation.
