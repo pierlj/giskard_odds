@@ -7,6 +7,7 @@ import logging
 
 from utils import *
 
+logging.basicConfig(level=logging.INFO)
 
 def compute_path_length(
     path: list, universe_graph: nx.Graph, autonomy: int
@@ -30,7 +31,12 @@ def compute_path_length(
         universe_graph[path[i]][path[i + 1]]["weight"] for i in range(len(path) - 1)
     ]
     length_without_refuel = sum(path_edge_weights)
-    n_refuel = length_without_refuel // autonomy
+    n_refuel = 0
+    for i in range(1, len(path) - 1):
+        incoming_w = universe_graph[path[i - 1]][path[i]]["weight"]
+        outgoing_w = universe_graph[path[i]][path[i + 1]]["weight"]
+        if (incoming_w + outgoing_w) >= autonomy:
+            n_refuel += 1
     total_length = n_refuel + length_without_refuel
 
     return total_length, length_without_refuel, n_refuel
@@ -78,7 +84,7 @@ def compute_path_odds(
     for i in range(1, len(path) - 1):
         incoming_w = universe_graph[path[i - 1]][path[i]]["weight"]
         outgoing_w = universe_graph[path[i]][path[i + 1]]["weight"]
-        if (incoming_w + outgoing_w) > autonomy:
+        if (incoming_w + outgoing_w) >= autonomy:
             forced_refuel.append(path[i])
 
         may_stop_or_refuel.append(path[i])
@@ -200,11 +206,13 @@ def compute_odds(
                                       if an itinerary is possible, None otherwise.
 
     """
+    # print(logger.level)
+    logger = logging.getLogger('R2D2')
     logger.setLevel(logging.INFO if verbose else logging.CRITICAL)
 
     millenium_dict, empire_dict = get_json_contents(millenium_path, empire_path)
     if millenium_dict is None or empire_dict is None:
-        logger.warn(" Abort Mission !")
+        logger.warning(" Abort Mission !")
         return None, None
 
     # check weither route_db is absolute or relative path

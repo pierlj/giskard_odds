@@ -7,8 +7,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(name="R2D2")
+logger = logging.Logger(name="R2D2", level=logging.INFO)
 
 EMPIRE_SCHEMA = {"countdown": int, "bounty_hunters": [{"planet": str, "day": int}]}
 
@@ -252,7 +251,7 @@ def prettify_path(path: list, itinerary: list[tuple]) -> list:
                     "Departure from {} on day {}.".format(planet, arrival_day)
                 )
             elif departure_day - arrival_day == 1:
-                path_str.append("First stay on {} for 1 days.".format(planet))
+                path_str.append("First stay on {} for 1 day.".format(planet))
             else:
                 path_str.append(
                     "First stay on {} for {} days.".format(
