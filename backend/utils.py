@@ -7,7 +7,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 
-
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(name="R2D2")
 
 EMPIRE_SCHEMA = {"countdown": int, "bounty_hunters": [{"planet": str, "day": int}]}
@@ -18,14 +18,30 @@ ALLOWED_EXTENSIONS = ["json"]
 GRAPH_SAVE_PATH = "frontend/static/ressources/routes_graph.png"
 
 
-def build_unvierse_graph(db_path, millenium_dict):
+def build_unvierse_graph(db_path: str, millenium_dict: dict) -> nx.Graph:
+    """
+    Loads the routes file and construct the routes graph of the universe
+
+    Parameters:
+        - db_path (str): the path to the .db file.
+        - millenium_dict (dict): the Millennium Falcon config dict.
+
+    Returns:
+        - G (nx.Graph | None): the NetworkX graph containing all routes information,
+                            None if an issue is encountered during the handling of the .db file.
+    """
+
     os.remove(GRAPH_SAVE_PATH)
     autonomy = millenium_dict["autonomy"]
+
+    # safely open the DB file.
     try:
         con = sqlite3.connect(db_path)
         cur = con.cursor()
 
-        # no need to consider routes that cannot be taken by the falcon (could be done from the query as well)
+        # no need to consider routes that cannot be taken by the falcon,
+        # i.e. with cost larger than its autonomy
+        # (could be done from the query as well)
         db_answer = [row for row in cur.execute("SELECT * FROM ROUTES")]
         assert all(
             [
@@ -52,7 +68,9 @@ def build_unvierse_graph(db_path, millenium_dict):
         return None
 
     G = nx.parse_edgelist(edge_list, data=True)
-    if G.number_of_nodes() < 50:  # if the routes graph is not too large display it
+    # if the routes graph is small enough create a visualization of the graph to
+    # add it on the webapp page.
+    if G.number_of_nodes() < 20:  # with more than 20 nodes it might become messy
         graph_layout = nx.drawing.spring_layout(G)
         color_map = []
         for node in G:
@@ -96,7 +114,18 @@ def build_unvierse_graph(db_path, millenium_dict):
     return G
 
 
-def safe_load_json(path, schema):
+def safe_load_json(path: str, schema: dict) -> dict:
+    """
+    Safely load a .json file and checks if it matches the schema
+
+    Parameters:
+        - path (str): the path to the .json file.
+        - schema (dict): the schema to compare with
+
+    Returns:
+        - loaded_dict (dict | None): the content of the file or None if it does not
+                                     match the schema or if the file is incorrect.
+    """
     loaded_dict = None
     try:
         with open(path, "r") as f:
@@ -113,14 +142,30 @@ def safe_load_json(path, schema):
     return loaded_dict
 
 
-def get_json_contents(millenium_path, empire_path):
+def get_json_contents(millenium_path: str, empire_path: str) -> (dict, dict):
+    """
+    Safely loads the content of the Millennium and Empire .json files.
+    """
     millenium_dict = safe_load_json(millenium_path, FALCON_SCHEMA)
     empire_dict = safe_load_json(empire_path, EMPIRE_SCHEMA)
 
     return millenium_dict, empire_dict
 
 
-def check_json_schema(dict_check, schema):
+def check_json_schema(dict_check: dict, schema: dict) -> bool:
+    """
+    Checks wether a dictionnary fits with a type schema.
+
+    Parameters:
+        - dict_check (dict): the dictionnary to check.
+        - schema (dict): the dictionnary containning the type schema, it contains the keys and type desired,
+                         see the example below with the FALCON_SCHEMA:
+
+                         FALCON_SCHEMA = {"autonomy": int, "departure": str, "arrival": str, "routes_db": str}
+
+        Returns:
+            - (bool): wether if dict_check matches the schema.
+    """
     for key in schema:
         if key not in dict_check:
             logger.info("Missing key: {}, invalid json schema.".format(key))
@@ -151,12 +196,18 @@ def check_json_schema(dict_check, schema):
     return True
 
 
-def load_empire_dict(empire_path):
+def load_empire_dict(empire_path: str) -> dict:
+    """
+    Safely loads the content of an empire .json file.
+    """
     empire_dict = safe_load_json(empire_path, EMPIRE_SCHEMA)
     return empire_dict
 
 
-def setup_upload_folder(folder):
+def setup_upload_folder(folder: str):
+    """
+    Prepare a local folder for the uploading of a .json file inside the webapp.
+    """
     if not os.path.exists(folder):
         os.makedirs(folder)
     else:
@@ -171,11 +222,26 @@ def setup_upload_folder(folder):
                 logger.warning("Failed to delete %s. Reason: %s" % (file_path, e))
 
 
-def allowed_file(filename):
+def allowed_file(filename: str) -> bool:
+    """
+    Checks if filename has the right extension (i.e. .json here)
+    """
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
-def prettify_path(path, itinerary):
+def prettify_path(path: list, itinerary: list[tuple]) -> list:
+    """
+    Generate a list of steps to make the path and itinerary human-readable.
+
+    Parameters:
+        - path (list): a list of the names of the nodes constituting the path from departure to arrival.
+        - itinerary (list[tuple]): the associated strategy to achieve the odds contains the arrival
+                                   and departure days for each planet in the path.
+
+    Returns:
+        - path_str (list[str]): The prettified strings for each step in the itinerary,
+                                      if an itinerary is possible.
+    """
     path_str = []
     for idx_planet, (planet, (arrival_day, departure_day)) in enumerate(
         zip(path, itinerary)

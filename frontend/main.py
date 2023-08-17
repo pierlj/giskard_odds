@@ -1,7 +1,7 @@
 import os
 import sys
 import json
-from flask import Flask, render_template, request, url_for, flash, redirect, g, session
+from flask import Flask, render_template, request, url_for, flash, redirect, session
 from werkzeug.utils import secure_filename
 
 sys.path.insert(1, "backend/")
@@ -22,6 +22,9 @@ app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
 @app.route("/")
 def home():
+    """
+    Handles the main page interactions. Show odds computation results if available.
+    """
     if "odds_dict" in session:
         odds_dict = session["odds_dict"]
         del session["odds_dict"]
@@ -31,6 +34,11 @@ def home():
 
 @app.route("/", methods=["GET", "POST"])
 def upload_json():
+    """
+    Handles the form submission from the webapp: checks if selected file is correct, saves
+    it and computes the odds using the backend module.
+    """
+
     if "file" not in request.files:
         flash("No file part")
         return redirect(url_for("home"))
