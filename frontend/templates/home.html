@@ -1,103 +1,103 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Tell me the odds</title>
 
-<head>
-    <meta charset="utf-8">
-    <title >Tell me the odds</title>
-
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
     <!-- <link rel="stylesheet"
         href="{{ url_for('static', filename='node_modules/jquery-bar-rating/dist/themes/bars-movie.css') }}">
     <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src="{{ url_for('static', filename='node_modules/jquery-bar-rating/jquery.barrating.js')}}"></script>
     <script src="{{url_for('static', filename='js/template.js')}}"></script> -->
+  </head>
 
-</head>
-
-<body>
-
-
+  <body>
     <h1>Tell me the odds</h1>
-    
+
     <form method="post" action="/" enctype="multipart/form-data" id="file-form">
-        
-        <!-- <div>
+      <!-- <div>
             <input type="file" name="file" accept=".json" />
             <label class="custom-file-upload">
                 <input type="submit" value="Upload"><i class="fa fa-cloud-upload"></i> Upload an Empire communication file
             </label>
         </div> -->
 
-        
-        <input type="file" id="hidden-button" name="file" accept=".json"
-            onChange="document.getElementById('file-form').submit();" style="display:none;" />
-        <button type="button" class="button-style" onclick="document.getElementById('hidden-button').click();"><i class="fa fa-cloud-upload"></i>&nbsp; Upload an Empire communication file</button>
-        
+      <input
+        type="file"
+        id="hidden-button"
+        name="file"
+        accept=".json"
+        onChange="document.getElementById('file-form').submit();"
+        style="display: none"
+      />
+      <button
+        type="button"
+        class="button-style"
+        onclick="document.getElementById('hidden-button').click();"
+      >
+        <i class="fa fa-cloud-upload"></i>&nbsp; Upload an Empire communication
+        file
+      </button>
 
-        {% for mesg in get_flashed_messages() %}
-        <h4>{{ mesg }}</h4>
-        
-        {% endfor %}
+      {% for mesg in get_flashed_messages() %}
+      <h4>{{ mesg }}</h4>
 
-        {% if messages.visibility == "visible" %}
-        <div>
-            <h2>The odds of success are {{ messages.odds }} % !</h2>
-            <div class="row">
-                <div class="block">
-                    <h3>Empire Communication Content</h3>
-                    <h4>Countdown: {{messages.empire_dict.countdown}}</h4>
-                    <h4>Bounty Hunters</h4>
-                    <table>
-                        <tr>
-                            <th>Planet</th>
-                            <th>Day</th>
-                        </tr>
-                        {% for bounty in messages.empire_dict.bounty_hunters %}
-                            <tr>
+      {% endfor %} {% if messages.visibility == "visible" %}
+      <div>
+        <h2>The odds of success are {{ messages.odds }} % !</h2>
+        <div class="row">
+          <div class="block">
+            <h3>Empire Communication Content</h3>
+            <h4>Countdown: {{messages.empire_dict.countdown}}</h4>
+            <h4>Bounty Hunters</h4>
+            <table>
+              <tr>
+                <th>Planet</th>
+                <th>Day</th>
+              </tr>
+              {% for bounty in messages.empire_dict.bounty_hunters %}
+              <tr>
+                <td>{{bounty.planet}}</td>
+                <td>{{bounty.day}}</td>
+              </tr>
 
-                                <td>{{bounty.planet}}</td>
-                                <td>{{bounty.day}}</td>
-                            </tr>
-
-                        {% endfor %}
-                        
-                    </table>
-                    
-                    
-                </div>
-                <div class="block">
-                    <h3>Itinerary</h3>
-                    <table class="center">
-                        {% for step in messages.itinerary %}
-                        <tr>
-                            <td class="ragged-left">
-                                {%if step != '' %}
-                                    <i class="fa fa-chevron-right" aria-hidden="true"></i>
-                                {% endif %}
-                                &nbsp;{{step}}
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    
-                    </table>
-                    
-                </div>
-                {% if messages.routes_img != '' %}
-                <div class="block">
-                    <img src="{{url_for('static', filename=messages.routes_img)}}">
-                    <h4>Routes Graph</h4>
-                </div>
-                {% endif %}
-            </div>
+              {% endfor %}
+            </table>
+          </div>
+          <div class="block">
+            <h3>Itinerary</h3>
+            <table class="center">
+              {% for step in messages.itinerary %}
+              <tr>
+                <td class="ragged-left">
+                  {%if step != '' %}
+                  <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                  {% endif %} &nbsp;{{step}}
+                </td>
+              </tr>
+              {% endfor %}
+            </table>
+          </div>
+          {% if messages.routes_img != '' %}
+          <div class="block">
+            <img src="{{url_for('static', filename=messages.routes_img)}}" />
+            <h4>Routes Graph</h4>
+          </div>
+          {% endif %}
         </div>
-        {% endif %}
-        
-        
+      </div>
+      {% endif %}
     </form>
-    
-    <h2 id="odds"></h2>
-</body>
 
+    <h2 id="odds"></h2>
+  </body>
 </html>
