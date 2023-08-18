@@ -60,17 +60,17 @@ def upload_json():
         if empire_dict is not None:
             flash("Successfully loaded JSON Empire file: {}.".format(empire_file_path))
             redirect(url_for("home"))
-            odds, itinerary = compute_odds(MILLENIUM_PATH, empire_file_path)
+            odds, itinerary = compute_odds(MILLENIUM_PATH, empire_file_path, verbose=True)
 
             odds_dict = {
                 "odds": odds,
                 "itinerary": itinerary
-                if itinerary is not None
-                else ["It is not possible to reach the planet in time."],
+                    if itinerary is not None
+                    else ["It is not possible to reach the planet in time."],
                 "empire_dict": empire_dict,
                 "visibility": "visible",
                 "routes_img": GRAPH_SAVE_PATH.split("static")[1]
-                if os.path.isfile(GRAPH_SAVE_PATH)
+                    if os.path.isfile(GRAPH_SAVE_PATH)
                 else "",
             }
             session["odds_dict"] = odds_dict

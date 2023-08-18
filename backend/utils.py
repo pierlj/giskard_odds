@@ -73,46 +73,51 @@ def build_unvierse_graph(db_path: str, millenium_dict: dict) -> nx.Graph:
     # if the routes graph is small enough create a visualization of the graph to
     # add it on the webapp page.
     if G.number_of_nodes() < 20:  # with more than 20 nodes it might become messy
-        graph_layout = nx.drawing.spring_layout(G)
-        color_map = []
-        for node in G:
-            if node == millenium_dict["departure"]:
-                color_map.append("green")
-            elif node == millenium_dict["arrival"]:
-                color_map.append("red")
-            else:
-                color_map.append("orange")
-        nx.draw_networkx(G, pos=graph_layout, node_color=color_map)
-        nx.draw_networkx_edge_labels(
-            G,
-            graph_layout,
-            edge_labels={(u, v): a["weight"] for u, v, a in G.edges(data=True)},
-        )
-        plt.axis("off")
-        legend_handles = [
-            Line2D(
-                [0],
-                [0],
-                marker="o",
-                color="w",
-                label="Circle",
-                markerfacecolor="g",
-                markersize=10,
-            ),
-            Line2D(
-                [0],
-                [0],
-                marker="o",
-                color="w",
-                label="Circle",
-                markerfacecolor="r",
-                markersize=10,
-            ),
-        ]
-        legend_labels = ["Departure Planet", "Arrival Planet"]
-        plt.legend(legend_handles, legend_labels)
-        plt.savefig(GRAPH_SAVE_PATH, bbox_inches="tight")
-        plt.clf()
+        try:
+            graph_layout = nx.drawing.spring_layout(G)
+            color_map = []
+            for node in G:
+                if node == millenium_dict["departure"]:
+                    color_map.append("green")
+                elif node == millenium_dict["arrival"]:
+                    color_map.append("red")
+                else:
+                    color_map.append("orange")
+            nx.draw_networkx(G, pos=graph_layout, node_color=color_map)
+            nx.draw_networkx_edge_labels(
+                G,
+                graph_layout,
+                edge_labels={(u, v): a["weight"] for u, v, a in G.edges(data=True)},
+            )
+            plt.axis("off")
+            legend_handles = [
+                Line2D(
+                    [0],
+                    [0],
+                    marker="o",
+                    color="w",
+                    label="Circle",
+                    markerfacecolor="g",
+                    markersize=10,
+                ),
+                Line2D(
+                    [0],
+                    [0],
+                    marker="o",
+                    color="w",
+                    label="Circle",
+                    markerfacecolor="r",
+                    markersize=10,
+                ),
+            ]
+            legend_labels = ["Departure Planet", "Arrival Planet"]
+            plt.legend(legend_handles, legend_labels)
+            plt.savefig(GRAPH_SAVE_PATH, bbox_inches="tight")
+            plt.clf()
+        except:
+            logger.info('Error during graph visualization creation.')
+            if os.path.isfile(GRAPH_SAVE_PATH):
+                os.remove(GRAPH_SAVE_PATH)
     return G
 
 
