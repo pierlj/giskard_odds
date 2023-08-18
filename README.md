@@ -41,7 +41,9 @@ python frontend/main.py
 
 The webapp is then accessible locally at [http://127.0.0.1:5000/](http://127.0.0.1:5000/). It only contains one button that allows uploading an Empire Communication file in the `.json` format. It then computes the odds of success as well as a possible strategy (itinerary with refueling and stops) to achieve these odds.
 
-It uses the Millenium Config and Routes from the examples provided in the original repository. These are stored in the `frontend/static/ressources/` folder. If the number of planets is small enough, a graph of the galaxy is displayed in the webapp as well. 
+It uses the Millenium Config and Routes from the examples provided in the original repository. These are stored in the `frontend/static/ressources/` folder. If the number of planets is small enough, a graph of the galaxy is displayed in the webapp as well (see below).
+
+![Routes graph from examples.](frontend/static/ressources/routes_graph.png)
 
 ## Odds computation approach
 
